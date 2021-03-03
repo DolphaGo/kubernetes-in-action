@@ -381,3 +381,20 @@ kubectl logs dolphago-manual
 DolphaGo server starting...
 ```
 
+
+### 포트 포워딩
+```
+$ kubectl port-forward dolphago-manual 8888:8080
+Forwarding from 127.0.0.1:8888 -> 8080
+Forwarding from [::1]:8888 -> 8080
+```
+위와 같이 하면 포트포워딩이 실행되어 로컬 포트로 파드에 연결할 수가 있게 된다.
+즉, localhost:8888로 파드에 접근할 수 있다.
+```
+$ curl localhost:8888
+
+You've hit dolphago-manual
+```
+
+신기하네 포트포워딩 ㅎㅎㅎㅎ(130p 참조)
+
