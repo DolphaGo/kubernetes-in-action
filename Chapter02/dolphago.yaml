@@ -1,21 +1,21 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: kubia
+  name: dolphago
   labels:
-    run: kubia
+    run: dolphago
 spec:
   replicas: 1
   selector:
-    run: kubia
+    run: dolphago
   template:
     metadata:
       labels:
-        run: kubia
+        run: dolphago
     spec:
       containers:
-      - name: kubia
-        image: luksa/kubia:latest
+      - name: dolphago
+        image: adamdoha/dolphago:latest
         ports:
         - containerPort: 8080
           protocol: TCP
