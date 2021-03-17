@@ -13,7 +13,7 @@ spec:
         memory: 100Ki
       limits:
         cpu: 100m
-        memory: 4Mi
+        memory: 100Mi # 여기를 크게 늘려줘야 minikube에선 정상적으로 pod이 띄워집니다.
     env:
     - name: POD_NAME
       valueFrom:

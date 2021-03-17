@@ -21,7 +21,7 @@ spec:
         memory: 100Ki
       limits:
         cpu: 100m
-        memory: 4Mi
+        memory: 100Mi
     volumeMounts:
     - name: downward
       mountPath: /etc/downward

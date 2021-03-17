@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: kubia-manual
+  name: dolphago-manual
   namespace: custom-namespace
 spec:
   containers:
-  - image: luksa/kubia
-    name: kubia
+  - image: adamdoha/dolphago
+    name: dolphago
     ports:
     - containerPort: 8080
       protocol: TCP
