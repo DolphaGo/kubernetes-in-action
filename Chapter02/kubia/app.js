@@ -1,7 +1,7 @@
 const http = require('http');
 const os = require('os');
 
-console.log("DolphaGo server starting...");
+console.log("Kubia server starting...");
 
 var handler = function(request, response) {
   console.log("Received request from " + request.connection.remoteAddress);

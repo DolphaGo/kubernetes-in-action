@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: dolphago-gpu
+  name: kubia-gpu
 spec:
   nodeSelector:
     gpu: "true"
   containers:
-  - image: adamdoha/dolphago
-    name: dolphago
+  - image: adamdoha/kubia
+    name: kubia
