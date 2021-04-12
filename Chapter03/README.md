@@ -398,3 +398,83 @@ You've hit dolphago-manual
 
 신기하네 포트포워딩 ㅎㅎㅎㅎ(130p 참조)
 
+### Kubernetes에서 Annotation이 뭐죠?
+
+파드 및 다른 오브젝트들은 Label 외에 annotations를 가질 수 있습니다.
+
+Annotation은 키-값 쌍으로 레이블과 거의 비슷하지만, 식별 정보를 갖지 않습니다.
+
+레이블은 오브젝트를 묶는 데 사용할 수 있지만, 어노테이션은 그렇게 할 수 없습니다.
+
+(이전에 Label Selector를 통해 오브젝트를 입맛에 맞게 선택했었지만, Annotation Selector는 없습니다.)
+
+### 그럼 레이블을 쓰면 되는데, 어노테이션을 왜 써요?
+
+어노테이션은 훨씬 더 많은 정보를 보유할 수 있습니다.
+
+이 정보들은 주로 tools들에서 사용되는 정보들입니다.
+
+특정 Annotation은 Kubernetes에 의해서 자동으로 Object에 추가가 되지만,
+
+나머지 어노테이션은 사용자가 직접 추가합니다.
+
+### 어노테이션 사용의 예
+
+쿠버네티스에 새로운 기능을 추가할 때 흔히 사용합니다.
+
+예를 들면, 새로운 기능의 알파/베타 버전은 API 오브젝트에 새로운 필드를 바로 도입하지 않습니다.
+
+필드 대신 어노테이션을 사용하고, 필요한 API 변경이 명확해지고 쿠버네티스 개발자가 이에 동의하면 새로운 필드가 도입되는 방식입니다. 그리고 관련 어노테이션은 사라지게 됩니다.
+
+또한 파드나 다른 API 오브젝트에 설명을 추가해놓으면,  클러스터를 사용하는 모든 사람이 개별 오브젝트에 관한 정보를 신속하게 찾아볼 수 있습니다.
+
+### 기존에 만든 파드의 어노테이션 확인해보기
+
+파드 생성 시, 쿠버네티스가 자동으로 만들어준 annotation을 확인해보겠습니다.
+
+어노테이션을 보기 위해서는 describe 명령이나, yaml 전체 내용을 요청해야 합니다.
+
+`kubectl get po {파드 이름} -o yaml`
+$ kubectl get po kubia-manual -o yaml
+apiVersion: v1
+kind: Pod
+metadata:
+annotations:
+kubernetes.io/psp: default
+creationTimestamp: "2021-04-11T16:13:42Z"
+labels:
+app: dolphago
+...
+kubernetes.io/psp 어노테이션이 default로 지정되어 있다. 라고 되어있네요.
+
+annotations:
+kubernetes.io/psp: default
+여기서 psp는 pod security policy를 의미하는데요. 이 정책이 default라고 설명되어 있는 것을 확인할 수 있습니다.
+
+이런 데이터를 레이블에 굳이 넣고 싶지는 않겠죠? 어노테이션에 적절히 활용할 수 있겠습니다.
+
+레이블에는 짧은 데이터를, 어노테이션에서는 상대적으로 큰 데이터를 넣을 수 있습니다.(256KB)
+
+### 어노테이션 추가/수정/삭제
+
+- 레이블을 추가/수정했던 것과 마찬가지로, 파드를 생성할 때나 이미 만들어진 파드에 어노테이션을 추가/수정도 가능합니다.
+
+- 레이블에서 kubectl label ~ 로 레이블링을 했던 것처럼, 어노테이션에서도 kubectl annotate 명령을 사용합니다.
+
+저는 기존에 만들어둔 파드 kubia-manual 이라는 파드가 있는데요.
+여기에 어노테이션이 kubernetes.io/psp: default 밖에 없는 상황입니다.
+
+어노테이션을 추가하는 명령어는 다음과 같습니다.
+
+kubectl annotate pod {파드이름} {키}={값}
+파드에 어노테이션이 추가가 되었는지 확인하려면 다음 명령어로 확인합니다. (아니면 -o yaml이나 -o json으로 출력하시면 됩니다.)
+`kubectl describe pod {파드 이름}`
+
+어노테이션을 수정하는 것도 레이블링 방식과 동일합니다.
+변경할 키=값 끝에 --overwrite 옵션을 추가해주면 됩니다.
+
+`kubectl annotate pod {파드이름} {키}={값} --overwrite`
+어노테이션을 삭제하는 명령어는 다음과 같습니다.
+
+`kubectl annotate pod {파드이름} {키}-`
+삭제하려는 {키} 끝에  -를 붙여주면 됩니다.
