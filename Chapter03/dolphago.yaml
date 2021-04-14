@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dolphago // 172.17.0.4
+spec:
+  containers:
+  - image: adamdoha/kubia
+    name: dolphago
+    ports:
+    - containerPort: 8080
+      protocol: TCP
