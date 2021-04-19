@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kubia
@@ -14,7 +14,7 @@ spec:
         app: kubia
     spec:
       containers:
-      - image: luksa/kubia:v1
+      - image: luksa/kubia
         name: nodejs
         resources:
           requests:

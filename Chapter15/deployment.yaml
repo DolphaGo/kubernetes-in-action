@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kubia
@@ -11,8 +11,13 @@ spec:
         app: kubia
     spec:
       containers:
-      - image: luksa/kubia:v1
-        name: nodejs
-        resources:
-          requests:
-            cpu: 100m
+        - image: luksa/kubia
+          name: nodejs
+          resources:
+            requests:
+              cpu: 100m
+            limits:
+              cpu: 1Gi
+  selector:
+    matchLabels:
+      app: kubia
